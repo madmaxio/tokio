@@ -1,0 +1,105 @@
+[package]
+name = "tokio"
+# When releasing to crates.io:
+# - Remove path dependencies
+# - Update html_root_url.
+# - Update doc url
+#   - Cargo.toml
+#   - README.md
+# - Update CHANGELOG.md.
+# - Create "v0.2.x" git tag.
+version = "0.2.0-alpha.6"
+edition = "2018"
+authors = ["Tokio Contributors <team@tokio.rs>"]
+license = "MIT"
+readme = "README.md"
+documentation = "https://docs.rs/tokio/0.2.0-alpha.6/tokio/"
+repository = "https://github.com/tokio-rs/tokio"
+homepage = "https://tokio.rs"
+description = """
+An event-driven, non-blocking I/O platform for writing asynchronous I/O
+backed applications.
+"""
+categories = ["asynchronous", "network-programming"]
+keywords = ["io", "async", "non-blocking", "futures"]
+
+[features]
+default = [
+  "codec",
+  "fs",
+  "io",
+  "net",
+  "rt-full",
+  "sync",
+  "timer",
+]
+
+codec = ["io", "tokio-codec", "bytes"]
+fs = ["tokio-fs"]
+io = ["tokio-io"]
+macros = ["tokio-macros"]
+net = ["tcp", "udp", "uds"]
+rt-current-thread = [
+  "timer",
+  "tokio-net",
+  "tokio-executor/current-thread",
+]
+rt-full = [
+  "macros",
+  "num_cpus",
+  "net",
+  "sync",
+  "timer",
+  "tokio-executor/current-thread",
+  "tokio-executor/threadpool",
+  "tracing-core",
+]
+signal = ["tokio-net/signal"]
+sync = ["tokio-sync"]
+tcp = ["io", "tokio-net/tcp"]
+timer = ["tokio-timer"]
+tracing = ["tracing-core"]
+udp = ["io", "tokio-net/udp"]
+uds = ["io", "tokio-net/uds"]
+process = ["io", "tokio-net/process"]
+
+[dependencies]
+futures-core-preview = "=0.3.0-alpha.19"
+futures-sink-preview = "=0.3.0-alpha.19"
+futures-util-preview = { version = "=0.3.0-alpha.19", features = ["sink"] }
+
+# Everything else is optional...
+bytes = { version = "0.4", optional = true }
+num_cpus = { version = "1.8.0", optional = true }
+tokio-codec = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-codec" }
+tokio-fs = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-fs" }
+tokio-io = { version = "=0.2.0-alpha.6", optional = true, features = ["util"], path = "../tokio-io" }
+tokio-executor = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-executor" }
+tokio-macros = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-macros" }
+tokio-net = { version = "=0.2.0-alpha.6", optional = true, features = ["async-traits"], path = "../tokio-net" }
+tokio-sync = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-sync", features = ["async-traits"] }
+tokio-timer = { version = "=0.3.0-alpha.6", optional = true, path = "../tokio-timer", features = ["async-traits"] }
+tracing-core = { version = "0.1", optional = true }
+
+[target.'cfg(feature = "tracing")'.dependencies]
+tokio-net = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-net", features = ["tracing", "async-traits"] }
+tokio-executor = { version = "=0.2.0-alpha.6", optional = true, path = "../tokio-executor", features = ["tracing"] }
+
+# [dev-dependencies]
+# tokio-test = { version = "=0.2.0-alpha.6", path = "../tokio-test" }
+
+# futures-preview = "=0.3.0-alpha.19"
+# futures-util-preview = "=0.3.0-alpha.19"
+# pin-utils = "=0.1.0-alpha.4"
+# env_logger = { version = "0.6", default-features = false }
+# flate2 = { version = "1", features = ["tokio"] }
+# http = "0.1"
+# httparse = "1.0"
+# libc = "0.2"
+# num_cpus = "1.0"
+# serde = { version = "1.0", features = ["derive"] }
+# serde_json = "1.0"
+# time = "0.1"
+
+[package.metadata.docs.rs]
+all-features = true

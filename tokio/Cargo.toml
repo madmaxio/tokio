@@ -52,7 +52,8 @@ version = "=0.2.0-alpha.6"
 optional = true
 
 [dependencies.tokio-fs]
-version = "=0.2.0-alpha.6"
+path = "../tokio-fs"
+#version = "=0.2.0-alpha.6"
 optional = true
 
 [dependencies.tokio-io]
